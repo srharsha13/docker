@@ -1,0 +1,15 @@
+step1: stop the docker related services 
+$ sudo systemctl stop docker.service
+$ sudo systemctl stop docker.socket
+
+step2: edit the file  sudo vi /lib/systemd/system/docker.service
+ExecStart=/usr/bin/dockerd -g /new/path/docker -H fd://
+
+step3: sudo rsync -aqxP /var/lib/docker/ /new/path/docker
+
+step4: reload the docker 
+$ sudo systemctl daemon-reload
+$ sudo systemctl start docker
+
+step5: verify the defalut path 
+ps aux | grep -i docker | grep -v grep
